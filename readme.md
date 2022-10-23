@@ -15,3 +15,48 @@ arguments.py -t 'test' -p 'project1' -a
 arguments.py -p 'project1' -i '0' -d # 
 
 ```
+
+## Example
+
+### Case #1
+
+``` 
+arguments.py -t 'test' -p 'project1' -a
+arguments.py -t 'mercedes' -p 'project1' -a
+arguments.py -t 'apple' -p 'project1' -a
+arguments.py -l
+```
+#### Output 
+
+```
+service account id: 0, application: test, project project1
+service account id: 1, application: mercedes, project project1
+service account id: 2, application: apple, project project1
+```
+
+#### Delete object
+
+```
+arguments.py -i 1 -p 'project1' -d
+arguments.py -l      
+```
+#### Output
+```             
+service account id: 0, application: test, project project1
+service account id: 2, application: apple, project project1
+```
+
+#### Add
+
+```
+arguments.py -t 'apple' -p 'project1' -a
+arguments.py -l 
+```
+
+#### Output 
+
+```
+service account id: 0, application: test, project project1
+service account id: 2, application: apple, project project1
+service account id: 1, application: apple, project project1
+```
