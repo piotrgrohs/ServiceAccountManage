@@ -45,7 +45,7 @@ try:
 
         elif currentArgument in ("-a", "--Add"):
             # Add service account
-            # arguments.py -t 'test' -p 'test2' -aś
+            # arguments.py -t 'test' -p 'test2' -a
             list_of_serviceAccount.load()
             project = serviceAccount.project
             app = serviceAccount.app
