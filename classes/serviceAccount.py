@@ -10,7 +10,6 @@ class serviceAccount:
         self.app = app  # Application id eg. APP0000
         self.project = project  # Project id
 
-    
     def show(self):
         print(
             f'service account id: {self.id}, application: {self.app}, project {self.project}')
@@ -18,13 +17,12 @@ class serviceAccount:
     def toJSON(self):
         return json.dumps(self, default=lambda o: o.__dict__,
                           sort_keys=True, indent=4)
+
     def check(self):
-        if len(self.app) < 1: 
+        if len(self.app) < 1:
             raise TypeError(f'Not set application id')
-        if len(self.project) < 1: 
+        if len(self.project) < 1:
             raise TypeError(f'Not set project name')
-
-
 
 
 class list_of_serviceAccount:
@@ -32,7 +30,6 @@ class list_of_serviceAccount:
         self.list = []  # list of service accounts
         self.file = 'serviceAccount.json'  # path to service accounts
         self.number_max = 9999
-
 
     def add(self, app: str, project: str, description: str):
         id = self.free_id(project)
@@ -48,14 +45,12 @@ class list_of_serviceAccount:
         free_id = [i for i in range(self.number_max) if i not in list_of_id]
         return free_id[0]
 
-    
-
     def load(self):
         if os.path.isfile(self.file) and os.path.getsize(self.file) > 0:
             try:
                 with open(self.file, 'r') as outputfile:
                     json_object = json.load(outputfile)
-                    list_of_sa = [json.loads(sa) for sa in json_object]
+                    list_of_sa = [json.loads(sa) for sa in json_object['serviceAccounts']]
             except:
                 raise TypeError(f'Unrecognized file')
 
@@ -64,8 +59,9 @@ class list_of_serviceAccount:
 
     def save(self):
         list = [sa.toJSON() for sa in self.list]
+        json_list = {"serviceAccounts": list}
         with open(self.file, "w") as outfile:
-            json.dump(list, outfile)
+            json.dump(json_list, outfile)
 
     def show(self):
         if len(self.list) < 1:
