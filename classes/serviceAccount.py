@@ -1,5 +1,6 @@
 from functools import singledispatchmethod
 import json
+import os
 
 
 class serviceAccount:
@@ -47,16 +48,19 @@ class list_of_serviceAccount:
         free_id = [i for i in range(self.number_max) if i not in list_of_id]
         return free_id[0]
 
-    def load(self):
-        try:
-            with open(self.file, 'r') as outputfile:
-                json_object = json.load(outputfile)
-                list_of_sa = [json.loads(sa) for sa in json_object]
-        except:
-            raise TypeError(f'Unrecognized file {self.file}')
+    
 
-        self.list = [serviceAccount(
-            int(sa['id']), sa['description'], sa['app'], sa['project']) for sa in list_of_sa]
+    def load(self):
+        if os.path.isfile(self.file) and os.path.getsize(self.file) > 0:
+            try:
+                with open(self.file, 'r') as outputfile:
+                    json_object = json.load(outputfile)
+                    list_of_sa = [json.loads(sa) for sa in json_object]
+            except:
+                raise TypeError(f'Unrecognized file')
+
+            self.list = [serviceAccount(
+                int(sa['id']), sa['description'], sa['app'], sa['project']) for sa in list_of_sa]
 
     def save(self):
         list = [sa.toJSON() for sa in self.list]
